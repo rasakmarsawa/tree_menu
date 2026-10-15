@@ -97,46 +97,6 @@ function TreeNode({
     }
     return false;
   };
-  const handleMoveUp = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (item.parent_id === null) {
-      const siblings = rootItems.filter(i => i.parent_id === null).sort((a, b) => a.sort_key - b.sort_key);
-      const idx = siblings.findIndex(i => i.id === item.id);
-      if (idx > 0) {
-        onSort(item.id, siblings[idx - 1].sort_key);
-      }
-    } else {
-      const parent = rootItems.find(r => r.id === item.parent_id);
-      if (parent) {
-        const siblings = (parent.children || []).sort((a, b) => a.sort_key - b.sort_key);
-        const idx = siblings.findIndex(i => i.id === item.id);
-        if (idx > 0) {
-          onSort(item.id, siblings[idx - 1].sort_key);
-        }
-      }
-    }
-  };
-
-  const handleMoveDown = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (item.parent_id === null) {
-      const siblings = rootItems.filter(i => i.parent_id === null).sort((a, b) => a.sort_key - b.sort_key);
-      const idx = siblings.findIndex(i => i.id === item.id);
-      if (idx < siblings.length - 1) {
-        onSort(item.id, siblings[idx + 1].sort_key);
-      }
-    } else {
-      const parent = rootItems.find(r => r.id === item.parent_id);
-      if (parent) {
-        const siblings = (parent.children || []).sort((a, b) => a.sort_key - b.sort_key);
-        const idx = siblings.findIndex(i => i.id === item.id);
-        if (idx < siblings.length - 1) {
-          onSort(item.id, siblings[idx + 1].sort_key);
-        }
-      }
-    }
-  };
-
 
   const [sortKey, setSortKey] = useState(item.sort_key);
 
@@ -202,10 +162,6 @@ function TreeNode({
         <span className="node-meta">
           Sort: {item.sort_key}
           {item.url && <span className="node-url">{item.url}</span>}
-        </span>
-        <span className="sort-buttons">
-          <button onClick={handleMoveUp} className="btn btn-xs" title="Move Up" draggable={false}>↑</button>
-          <button onClick={handleMoveDown} className="btn btn-xs" title="Move Down" draggable={false}>↓</button>
         </span>
 
       </div>
